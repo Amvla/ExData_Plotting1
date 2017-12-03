@@ -27,12 +27,12 @@ hpc$Date <- as.Date(hpc$Date, "%d/%m/%Y")
 
 ## Create subset to include only dates 2007-02-01 and 2007-02-02
 hpc <- filter(hpc, (Date == "2007-02-01")|(Date == "2007-02-02"))
+datetime <- paste(as.Date(hpc$Date), hpc$Time)
+hpc$datetime <- as.POSIXct(datetime)
 
 ## Create Plot 2 and save it as plot2.png
 png(filename = "plot2.png", width = 480, height = 480)
-plot(hpc$Global_active_power, type = "n", xaxt="n", ann=FALSE)
-with(hpc, lines(Global_active_power))
+plot(hpc$Global_active_power~hpc$datetime, type ="l", ann=FALSE)
 title(ylab = "Global active power (kilowatts)")
-axis(1, at=c(1, (nrow(hpc)/2), nrow(hpc)), labels = c("Thu", "Fri", "Sat"))
 dev.off()
 
